@@ -1,15 +1,15 @@
-import { Column, Entity, ObjectID, ObjectIdColumn, CreateDateColumn } from "typeorm";
+import { Column, Entity, ObjectID, ObjectIdColumn, CreateDateColumn, PrimaryGeneratedColumn, BeforeInsert } from "typeorm";
 
 @Entity()
 export class Task {
 
-    @ObjectIdColumn()
+    @PrimaryGeneratedColumn()
     id: ObjectID;
 
-    @Column({ type: 'varchar', nullable: false })
-    name: string;
+    @Column({ type: 'varchar' })
+    description: string;
 
-    @Column({ type: 'boolean', default: false })
+    @Column({ type: 'boolean' })
     completed: boolean;
 
     @Column({ type: 'varchar' })
@@ -18,6 +18,19 @@ export class Task {
     @CreateDateColumn({ type: 'timestamp' })
     createdAt: Date
 
-    @CreateDateColumn({ type: 'timestamp', nullable: true  })
+    @CreateDateColumn({ type: 'timestamp' })
     updatedAt: Date;
+
+    @BeforeInsert()
+    private beforeInsert() {
+        console.log('executing before insert');
+    }
+
+
+    constructor(description: string) {
+        this.description = description;
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
+        this.completed = false;
+    }
 }

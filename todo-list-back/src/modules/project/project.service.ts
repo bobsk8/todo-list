@@ -1,15 +1,15 @@
-import { Injectable, HttpException, ForbiddenException, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getManager } from 'typeorm';
 
 import { Project } from './project.model';
-import { TaskService } from '../task/task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateTaskDto } from '../task/dto/update-task.dto';
+import { Task } from '../task/task.model';
 
 @Injectable()
 export class ProjectService {
     constructor(
-        private taskService: TaskService,
         @InjectRepository(Project)
         private projectRepository: Repository<Project>
     ) { }
@@ -38,20 +38,15 @@ export class ProjectService {
         return this.projectRepository.save(user);
     }
 
-    async saveTask(projectId: string, task: CreateTaskDto): Promise<Project> {
-        const taskSave = { project: projectId, ...task };
-        const taskSaved = await this.taskService.save(taskSave);
-        const project = await this.projectRepository.findOne(projectId);
-
-        try {
-            project.tasks.push(taskSaved);
-            const repo = getManager().getRepository(Project);
-            repo.update(projectId, project);
-        } catch (e) {
-            const id = taskSaved.id.toString();
-            await this.taskService.remove(id);
-            throw new NotFoundException(e);
-        }
+    async saveTask(projectId: string, createTask: CreateTaskDto) {
+        const task = new Task(createTask.description);
+        const project = await this.projectRepository.update(projectId, { tasks: [task] });
         return project;
+    }
+
+    async updateTask(projectId: string, projectUpdate: Project): Promise<any> {
+        const repo = getManager().getRepository(Project);
+        const projectSaved = repo.update(projectId, projectUpdate);
+        return projectSaved;
     }
 }
