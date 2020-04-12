@@ -5,7 +5,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
-@Controller('user')
+@Controller('api/user')
 export class UserController {
 
     constructor(
