@@ -53,6 +53,16 @@ export class ProjectService {
       );
   }
 
+  delete(projectId: string): Observable<Project> {
+    return this.http.delete(`${this.url}/api/project/${projectId}`, httpOptions)
+      .pipe(
+        catchError(err => {
+          console.log('delete project ', err);
+          return throwError(err);
+        })
+      );
+  }
+
   getById(id: string): Observable<Project> {
     return this.http.get<Project>(`${this.url}/api/project/${id}`, httpOptions)
       .pipe(
@@ -68,6 +78,26 @@ export class ProjectService {
       .pipe(
         catchError(err => {
           console.log('update project ', err);
+          return throwError(err);
+        })
+      );
+  }
+
+  updateTask(taskId: string, task: any): Observable<Task> {
+    return this.http.put(`${this.url}/api/task/${taskId}`, task, httpOptions)
+      .pipe(
+        catchError(err => {
+          console.log('updateTask project ', err);
+          return throwError(err);
+        })
+      );
+  }
+
+  deleteTask(taskId: string): Observable<Task> {
+    return this.http.delete(`${this.url}/api/task/${taskId}`, httpOptions)
+      .pipe(
+        catchError(err => {
+          console.log('updateTask project ', err);
           return throwError(err);
         })
       );

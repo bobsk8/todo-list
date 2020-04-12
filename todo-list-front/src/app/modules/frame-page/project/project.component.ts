@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from './project.service';
 import { Project } from './project.model';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Task } from 'src/app/model/task.model';
 
 @Component({
@@ -11,40 +10,64 @@ import { Task } from 'src/app/model/task.model';
 })
 export class ProjectComponent implements OnInit {
 
-  taskForm: FormGroup;
   projects: Project[] = [];
   constructor(
-    private fb: FormBuilder,
     private projectService: ProjectService
   ) { }
 
   ngOnInit() {
     this.getProjects();
-    this.taskForm = this.createForm();
   }
 
-  createForm(): FormGroup {
-    return this.fb.group({
-      description: ['', Validators.required]
-    });
-  }
-
-  onSubmit(project: Project, form: any) {
-    if (!form.valid) {
+  onSubmit(project: Project) {
+    if (!project.taskDescription) {
       return;
     }
-    const task = Object.assign(new Task(), form.value);
-    this.projectService.addTask(project.id, task)
-    .subscribe(resp => project.tasks.push(resp));
+    const task = Object.assign(new Task(), { id: project.taskId, description: project.taskDescription, completed: false });
+    if (task.id) {
+      this.updateTask(project, task);
+    } else {
+      this.saveTask(project, task);
+    }
+  }
+
+  saveTask(project: Project, task: Task) {
+    this.projectService.addTask(task.id, task)
+      .subscribe(resp => project.tasks.push(resp));
+  }
+
+  updateTask(project: Project, task: Task) {
+    this.projectService.updateTask(task.id, task)
+      .subscribe(() => {
+        project.tasks.forEach(ts => {
+          if (ts.id === task.id) {
+            ts.description = task.description;
+          }
+        });
+        project.taskDescription = '';
+      });
   }
 
   getProjects() {
     this.projectService.getAll()
-    .subscribe(resp => this.projects = resp);
+      .subscribe(resp => this.projects = resp);
   }
 
-  removeProject(project: Project) {
-    console.log(project);
+  removeProject(projectId: string) {
+    this.projectService.delete(projectId)
+      .subscribe(() => { });
+  }
+
+  removeTask(project: Project, id: string) {
+    this.projectService.deleteTask(id)
+      .subscribe(() => {
+        project.tasks = project.tasks.filter(task => task.id !== id);
+      });
+  }
+
+  editTask(project: Project, task: Task) {
+    project.taskId = task.id;
+    project.taskDescription = task.description;
   }
 
 }
