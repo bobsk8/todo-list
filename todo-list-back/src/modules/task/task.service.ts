@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, getManager } from 'typeorm';
 
 import { Task } from './task.model';
+import { UpdateTaskDto } from './dto/update-task.dto';
 
 @Injectable()
 export class TaskService {
@@ -23,15 +24,17 @@ export class TaskService {
         return this.taskRepository.findOne(id);
     }
 
-    findByName(name: string): Promise<Task> {
-        return this.taskRepository.findOne({ where: { name } });
-    }
-
     async remove(id: string): Promise<void> {
         await this.taskRepository.delete(id);
     }
 
-    update(id: string, user: any): Promise<Task> {
-        return this.taskRepository.save(user);
+    update(id: string, task: UpdateTaskDto): Promise<Task> {
+        const repo = getManager().getRepository(Task);
+        repo.update(id, task);
+        return this.taskRepository.findOne(id);
+    }
+
+    async findByProjectId(project: string): Promise<Task[]> {
+        return this.taskRepository.find({ project });
     }
 }

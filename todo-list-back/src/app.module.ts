@@ -22,7 +22,7 @@ import { Project } from './modules/project/project.model';
       password: '',
       database: 'todo-list',
       entities: [User, Task, Project],
-      synchronize: true,
+      synchronize: false,
     }),
     UserModule,
     AuthModule,

@@ -1,10 +1,11 @@
 import { Column, Entity, ObjectID, ObjectIdColumn } from "typeorm";
 import { Task } from "../task/task.model";
+import { User } from "../user/user.model";
 
 @Entity()
 export class Project {
 
-    @ObjectIdColumn()
+    @ObjectIdColumn({ unique: true })
     id: ObjectID;
 
     @Column({ type: 'varchar', nullable: false })
@@ -12,6 +13,9 @@ export class Project {
     
     @Column(type => Task)
     tasks: Task[];
+
+    @Column(type => User)
+    user: User;
 
     constructor() {
         this.tasks = [];

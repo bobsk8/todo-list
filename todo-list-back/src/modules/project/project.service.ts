@@ -3,31 +3,39 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getManager } from 'typeorm';
 
 import { Project } from './project.model';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from '../task/dto/update-task.dto';
 import { Task } from '../task/task.model';
+import { TaskService } from '../task/task.service';
+import { CreateTaskDto } from '../task/dto/create-task.dto';
 
 @Injectable()
 export class ProjectService {
     constructor(
+        private taskService: TaskService,
         @InjectRepository(Project)
         private projectRepository: Repository<Project>
     ) { }
 
-    save(project: any): Promise<Project> {
+    save(project: any, userId: string): Promise<Project> {
+        project.user = userId;
         return this.projectRepository.save(project);
     }
 
-    findAll(): Promise<Project[]> {
-        return this.projectRepository.find();
+    async findAll(user: string): Promise<Project[]> {
+        const projects = await this.projectRepository.find({ where: { user } });
+        await Promise.all(
+            projects.map(async (project) => {
+                const tasks = await this.taskService.findByProjectId(project.id.toString());
+                project.tasks = tasks;
+            })
+        );
+        return projects;
     }
 
-    findOne(id: string): Promise<Project> {
-        return this.projectRepository.findOne(id);
-    }
-
-    findByName(name: string): Promise<Project> {
-        return this.projectRepository.findOne({ where: { name } });
+    async findOne(id: string): Promise<Project> {
+        const project = await this.projectRepository.findOne(id);
+        const tasks = await this.taskService.findByProjectId(id);
+        project.tasks = tasks;
+        return project;
     }
 
     async remove(id: string): Promise<void> {
@@ -35,18 +43,22 @@ export class ProjectService {
     }
 
     update(id: string, user: any): Promise<Project> {
-        return this.projectRepository.save(user);
+        const repo = getManager().getRepository(Project);
+        repo.update(id, user);
+        return this.projectRepository.findOne(id);
     }
 
     async saveTask(projectId: string, createTask: CreateTaskDto) {
-        const task = new Task(createTask.description);
-        const project = await this.projectRepository.update(projectId, { tasks: [task] });
-        return project;
-    }
-
-    async updateTask(projectId: string, projectUpdate: Project): Promise<any> {
-        const repo = getManager().getRepository(Project);
-        const projectSaved = repo.update(projectId, projectUpdate);
-        return projectSaved;
+        const task = new Task(createTask.description, projectId);
+        const taskSaved = await this.taskService.save(task);
+        try {
+            const project = await this.projectRepository.findOne(projectId);
+            project.tasks.push(taskSaved);
+            return project;
+        } catch (err) {
+            // if error remove task
+            this.taskService.remove(task.id.toString());
+        }
+        return null;
     }
 }

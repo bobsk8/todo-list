@@ -1,9 +1,9 @@
-import { Column, Entity, ObjectID, ObjectIdColumn, CreateDateColumn, PrimaryGeneratedColumn, BeforeInsert } from "typeorm";
+import { Column, Entity, ObjectID, ObjectIdColumn, CreateDateColumn } from "typeorm";
 
 @Entity()
 export class Task {
 
-    @PrimaryGeneratedColumn()
+    @ObjectIdColumn({ unique: true })
     id: ObjectID;
 
     @Column({ type: 'varchar' })
@@ -21,16 +21,9 @@ export class Task {
     @CreateDateColumn({ type: 'timestamp' })
     updatedAt: Date;
 
-    @BeforeInsert()
-    private beforeInsert() {
-        console.log('executing before insert');
-    }
-
-
-    constructor(description: string) {
+    constructor(description: string, project) {
+        this.project = project;
         this.description = description;
-        this.createdAt = new Date();
-        this.updatedAt = new Date();
         this.completed = false;
     }
 }

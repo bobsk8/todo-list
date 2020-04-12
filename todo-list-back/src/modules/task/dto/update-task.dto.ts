@@ -4,4 +4,7 @@ export class UpdateTaskDto {
 
     @IsString()
     description: string;
+
+    @IsBoolean()
+    completed: boolean;
 }

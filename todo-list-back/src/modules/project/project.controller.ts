@@ -1,39 +1,36 @@
-import { Controller, Get, Post, UsePipes, ValidationPipe, Body, Param, Put, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, UsePipes, ValidationPipe, Body, Param, Put, Delete, UseGuards, Request } from '@nestjs/common';
 
 import { ProjectService } from './project.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
-import { CreateTaskDto } from './dto/create-task.dto';
+import { CreateTaskDto } from '../task/dto/create-task.dto';
 
 @Controller('project')
 export class ProjectController {
     constructor(
         private projectService: ProjectService
-    ) {}
+    ) { }
 
     @Post()
     @UsePipes(ValidationPipe)
-    create(@Body() createProjectDto: CreateProjectDto) {
-        return this.projectService.save(createProjectDto);
+    @UseGuards(JwtAuthGuard)
+    create(@Body() createProjectDto: CreateProjectDto, @Request() req) {
+        const userId = req.user.userId;
+        return this.projectService.save(createProjectDto, userId);
     }
 
     @Get()
     @UseGuards(JwtAuthGuard)
-    findAll() {
-        return this.projectService.findAll();
+    findAll(@Request() req) {
+        const userId = req.user.userId;
+        return this.projectService.findAll(userId);
     }
 
     @Get(':id')
     @UseGuards(JwtAuthGuard)
     findOne(@Param('id') id) {
         return this.projectService.findOne(id);
-    }
-
-    @Get(':name')
-    @UseGuards(JwtAuthGuard)
-    findOneByName(@Param('name') name) {
-        return this.projectService.findByName(name);
     }
 
     @Put(':id')
@@ -51,6 +48,7 @@ export class ProjectController {
 
     @Post(':id/task')
     @UsePipes(ValidationPipe)
+    @UseGuards(JwtAuthGuard)
     createTask(@Param('id') id, @Body() createTaskDto: CreateTaskDto) {
         return this.projectService.saveTask(id, createTaskDto);
     }
