@@ -50,15 +50,6 @@ export class ProjectService {
 
     async saveTask(projectId: string, createTask: CreateTaskDto) {
         const task = new Task(createTask.description, projectId);
-        const taskSaved = await this.taskService.save(task);
-        try {
-            const project = await this.projectRepository.findOne(projectId);
-            project.tasks.push(taskSaved);
-            return project;
-        } catch (err) {
-            // if error remove task
-            this.taskService.remove(task.id.toString());
-        }
-        return null;
+        return this.taskService.save(task);        
     }
 }

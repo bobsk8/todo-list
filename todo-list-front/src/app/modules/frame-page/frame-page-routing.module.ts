@@ -8,7 +8,9 @@ const routes: Routes = [
   {
     path: '', component: FramePageComponent,
     children: [
-      { path: '', loadChildren: './project/project.module#ProjectModule' }
+      { path: '', loadChildren: './project/project.module#ProjectModule' },
+      { path: 'new', loadChildren: './project-detail/project-detail.module#ProjectDetailModule' },
+      { path: ':id', loadChildren: './project-detail/project-detail.module#ProjectDetailModule' }
     ]
   }
 ];

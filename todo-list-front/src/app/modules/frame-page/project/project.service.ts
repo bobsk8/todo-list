@@ -5,6 +5,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 
 import { Project } from './project.model';
+import { Task } from 'src/app/model/task.model';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -46,14 +47,24 @@ export class ProjectService {
     return this.http.get<Project[]>(`${this.url}/api/project`, httpOptions)
       .pipe(
         catchError(err => {
-          console.log('save project ', err);
+          console.log('getAll project ', err);
           return throwError(err);
         })
       );
   }
 
-  addTask(projectId: string, task: any): Observable<Project> {
-    return this.http.put(`${this.url}/api/project/${projectId}`, task, httpOptions)
+  getById(id: string): Observable<Project> {
+    return this.http.get<Project>(`${this.url}/api/project/${id}`, httpOptions)
+      .pipe(
+        catchError(err => {
+          console.log('getById project ', err);
+          return throwError(err);
+        })
+      );
+  }
+
+  addTask(projectId: string, task: any): Observable<Task> {
+    return this.http.post(`${this.url}/api/project/${projectId}/task`, task, httpOptions)
       .pipe(
         catchError(err => {
           console.log('update project ', err);

@@ -7,10 +7,10 @@
                         {{project.name}}
                     </div>
                     <div class="col-sm-2">
-                        <i class="fas fa-edit"></i>
+                        <i class="fas fa-edit" routerLink="/project/{{project.id}}"></i>
                     </div>
                     <div class="col-sm-2">
-                        <i class="fas fa-trash"></i>
+                        <i class="fas fa-trash" (click)="removeProject(project)"></i>
                     </div>
                 </div>
             </div>
@@ -18,24 +18,30 @@
                 <li class="list-group-item">
                     TODO <br>
                     <div *ngFor="let task of project.tasks">
-                        <input type="checkbox" name="" id="">{{task.description}}
+                        <div *ngIf="!task.completed">
+                            <input type="checkbox" name="" id="">{{task.description}}
+                        </div>
                     </div>
                 </li>
                 <li class="list-group-item">
                     DONE <br>
                     <div *ngFor="let task of project.tasks">
-                        <input type="checkbox" name="" id="">{{task.description}}
+                        <div *ngIf="task.completed">
+                            <input type="checkbox" name="" id="">{{task.description}}
+                        </div>
                     </div>
                 </li>
                 <li class="list-group-item">
-                    <div class="row">
+                    <form #ftask="ngForm" [formGroup]="taskForm" (submit)="onSubmit(project,ftask)">
+                    <div class="row">                        
                         <div class="col-sm-8">
-                            <input type="password" class="form-control" name="description"/>
+                            <input type="text" formControlName="description" class="form-control" name="description" placeholder="Task Description" />                
                         </div>
                         <div class="col-sm-4">
                             <button class="btn btn-primary">Add</button>
-                        </div>
+                        </div>                        
                     </div>
+                </form>
                 </li>
             </ul>
         </div>

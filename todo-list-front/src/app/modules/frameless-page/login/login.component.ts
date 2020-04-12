@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login(loginModel)
     .subscribe(resp => {
       this.loginService.setCurrentUserSession(resp.user, resp.token);
-    }, err => alert(err.error.message));
+    });
   }
 
 }
