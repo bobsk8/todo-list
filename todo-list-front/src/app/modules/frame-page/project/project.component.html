@@ -19,9 +19,9 @@
                     TODO <br>
                     <div *ngFor="let task of project.tasks">
                         <div *ngIf="!task.completed">                            
-                            <div class="row">
+                            <div class="row todo-itens">
                                 <div class="col-sm-2">
-                                    <input type="checkbox" name="" id="">
+                                    <input type="checkbox" name="" id="" (change)="setDoneTask(project, task)">
                                 </div>
                                 <div class="col-sm-6">
                                     {{task.description}}
@@ -40,7 +40,17 @@
                     DONE <br>
                     <div *ngFor="let task of project.tasks">
                         <div *ngIf="task.completed">
-                            <input type="checkbox" [checked]="task.completed">{{task.description}}
+                            <div class="row done-itens">
+                                <div class="col-sm-2">
+                                    <input type="checkbox" [checked]="task.completed" disabled>
+                                </div>
+                                <div class="col-sm-6">
+                                    {{task.description}}
+                                </div>
+                                <div class="col-sm-4">
+                                    {{task.updatedAt | date: 'yyyy-MM-dd'}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </li>

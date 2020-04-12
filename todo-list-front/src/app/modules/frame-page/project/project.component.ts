@@ -32,8 +32,11 @@ export class ProjectComponent implements OnInit {
   }
 
   saveTask(project: Project, task: Task) {
-    this.projectService.addTask(task.id, task)
-      .subscribe(resp => project.tasks.push(resp));
+    this.projectService.addTask(project.id, task)
+      .subscribe(resp => {
+        project.tasks.push(resp);
+        project.taskDescription='';
+      });
   }
 
   updateTask(project: Project, task: Task) {
@@ -68,6 +71,20 @@ export class ProjectComponent implements OnInit {
   editTask(project: Project, task: Task) {
     project.taskId = task.id;
     project.taskDescription = task.description;
+  }
+
+  setDoneTask(project: Project, task: Task) {
+    task.completed = true;
+    task.updatedAt = new Date();
+    this.projectService.updateTask(task.id, task)
+      .subscribe(() => {
+        project.tasks.forEach(ts => {
+          if (ts.id === task.id) {
+            ts = task;
+          }
+        });
+        project.taskDescription = '';
+      });
   }
 
 }
