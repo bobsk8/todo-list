@@ -35,7 +35,7 @@ export class ProjectComponent implements OnInit {
     this.projectService.addTask(project.id, task)
       .subscribe(resp => {
         project.tasks.push(resp);
-        project.taskDescription='';
+        project.taskDescription = '';
       });
   }
 

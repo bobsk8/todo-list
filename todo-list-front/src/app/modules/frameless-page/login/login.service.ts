@@ -35,4 +35,9 @@ export class LoginService {
   setCurrentUserSession(user: any, token: string) {
     sessionStorage.setItem('currentUser', JSON.stringify({ user, token }));
   }
+
+  getUserSessionToken() {
+    return (sessionStorage.getItem('currentUser') !== null) ? JSON.parse(sessionStorage.getItem('currentUser')).token : undefined;
+  }
+
 }
