@@ -3,6 +3,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 import { LoginModel } from './login.model';
 import { LoginService } from './login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   loginForm: FormGroup;
   constructor(
+    private router: Router,
     private fb: FormBuilder,
     private loginService: LoginService
   ) { }
@@ -42,6 +44,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login(loginModel)
     .subscribe(resp => {
       this.loginService.setCurrentUserSession(resp.user, resp.token);
+      this.router.navigate(['project']);
     });
   }
 

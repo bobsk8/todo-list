@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { LoginService } from '../modules/frameless-page/login/login.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthInterceptor implements HttpInterceptor {
-  constructor() { }
+  constructor(
+    private loginService: LoginService
+  ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): import('rxjs').Observable<HttpEvent<any>> {
-    const token = JSON.parse(sessionStorage.getItem('currentUser')).token;
+    const token = this.loginService.getUserSessionToken();
     if (token) {
       req = req.clone({
         setHeaders: {
