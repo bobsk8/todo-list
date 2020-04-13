@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 
 import { ProjectRoutingModule } from './project-routing.module';
 import { ProjectComponent } from './project.component';
+import { CardComponent } from '../components/card/card.component';
 import { FormsModule } from '@angular/forms';
 
-
 @NgModule({
-  declarations: [ProjectComponent],
+  declarations: [ProjectComponent, CardComponent],
   imports: [
     CommonModule,
     FormsModule,

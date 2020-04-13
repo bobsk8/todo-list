@@ -19,7 +19,8 @@ export class ProjectComponent implements OnInit {
     this.getProjects();
   }
 
-  onSubmit(project: Project) {
+  onSubmit(event: any) {
+    const project = event.project;
     if (!project.taskDescription) {
       return;
     }
@@ -61,19 +62,25 @@ export class ProjectComponent implements OnInit {
       .subscribe(() => { });
   }
 
-  removeTask(project: Project, id: string) {
+  removeTask(event: any) {
+    const project = event.project;
+    const id = event.id;
     this.projectService.deleteTask(id)
       .subscribe(() => {
         project.tasks = project.tasks.filter(task => task.id !== id);
       });
   }
 
-  editTask(project: Project, task: Task) {
+  editTask(event: any) {
+    const project = event.project;
+    const task = event.task;
     project.taskId = task.id;
     project.taskDescription = task.description;
   }
 
-  setDoneTask(project: Project, task: Task) {
+  setDoneTask(event: any) {
+    const project = event.project;
+    const task = event.task;
     task.completed = true;
     task.updatedAt = new Date();
     this.projectService.updateTask(task.id, task)
