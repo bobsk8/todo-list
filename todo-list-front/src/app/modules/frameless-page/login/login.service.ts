@@ -40,4 +40,8 @@ export class LoginService {
     return (sessionStorage.getItem('currentUser') !== null) ? JSON.parse(sessionStorage.getItem('currentUser')).token : undefined;
   }
 
+  getUserSession() {
+    return (sessionStorage.getItem('currentUser') !== null) ? JSON.parse(sessionStorage.getItem('currentUser')).user : undefined;
+  }
+
 }
