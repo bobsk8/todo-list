@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -13,9 +15,12 @@ import { Project } from './modules/project/project.model';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../client'),
+    }),
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      host: 'localhost',
+      host: process.env.DB_URL,
       port: 27017,
       username: '',
       useUnifiedTopology: true,
