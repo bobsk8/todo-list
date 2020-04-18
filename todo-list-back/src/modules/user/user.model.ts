@@ -6,12 +6,12 @@ export class User {
     @ObjectIdColumn()
     id: ObjectID;
 
-    @Column({ type: 'varchar', nullable: false })
+    @Column({ nullable: false })
     name: string;
 
-    @Column({ unique: true, type: 'varchar', nullable: false })
+    @Column({ unique: true, nullable: false })
     username: string;
 
-    @Column({ type: 'varchar', nullable: false })
+    @Column({ nullable: false })
     password: string;
 }

@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { User } from './user.model';
 import { Repository } from 'typeorm';
 import { passwordHash } from 'src/shared/helpers';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UserService {
@@ -12,28 +13,77 @@ export class UserService {
         private usersRepository: Repository<User>,
     ) { }
 
-    save(user: any): Promise<User> {
-        user.password = passwordHash(user.password);
-        return this.usersRepository.save(user);
+    async save(user: CreateUserDto): Promise<User> {
+        try {
+            user.password = passwordHash(user.password);
+            const resp = await this.usersRepository.save(user);
+            delete resp.password;
+            return resp;
+        } catch (err) {
+            throw new HttpException({
+                status: HttpStatus.FORBIDDEN,
+                error: err.errmsg,
+              }, HttpStatus.FORBIDDEN);
+        }
     } 
 
     findAll(): Promise<User[]> {
-        return this.usersRepository.find();
+        try {
+            const resp = this.usersRepository.find();
+            return resp;
+        } catch (err) {
+            throw new HttpException({
+                status: HttpStatus.FORBIDDEN,
+                error: err.errmsg,
+              }, HttpStatus.FORBIDDEN);
+        }
     }
 
-    findOne(id: string): Promise<User> {
-        return this.usersRepository.findOne(id);
+    async findOne(id: string): Promise<User> {
+        try {
+            const resp = await this.usersRepository.findOne(id);
+            delete resp.password;
+            return resp;
+        } catch (err) {
+            throw new HttpException({
+                status: HttpStatus.FORBIDDEN,
+                error: err.errmsg,
+              }, HttpStatus.FORBIDDEN);
+        }
     }
 
     findByUserName(username: string): Promise<User> {
-        return this.usersRepository.findOne({ where: { username } });
+        try {
+            const resp = this.usersRepository.findOne({ where: { username } });
+            return resp;
+        } catch (err) {
+            throw new HttpException({
+                status: HttpStatus.FORBIDDEN,
+                error: err.errmsg,
+              }, HttpStatus.FORBIDDEN);
+        }
     }
 
     async remove(id: string): Promise<void> {
-        await this.usersRepository.delete(id);
+        try {
+            this.usersRepository.delete(id);
+        } catch (err) {
+            throw new HttpException({
+                status: HttpStatus.FORBIDDEN,
+                error: err.errmsg,
+              }, HttpStatus.FORBIDDEN);
+        }
     }
 
     update(id: string, user: any): Promise<User> {
-        return this.usersRepository.save(user);
+        try {
+            const resp = this.usersRepository.save(user);
+            return resp;
+        } catch (err) {
+            throw new HttpException({
+                status: HttpStatus.FORBIDDEN,
+                error: err.errmsg,
+              }, HttpStatus.FORBIDDEN);
+        }
     }
 }
