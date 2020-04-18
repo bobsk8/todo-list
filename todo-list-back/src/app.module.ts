@@ -15,7 +15,7 @@ import { Project } from './modules/project/project.model';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      host: 'localhost',
+      host: process.env.DB_URL,
       port: 27017,
       username: '',
       useUnifiedTopology: true,

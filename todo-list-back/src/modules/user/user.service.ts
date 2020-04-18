@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { passwordHash } from '../auth/helpers'
 import { User } from './user.model';
 import { Repository } from 'typeorm';
+import { passwordHash } from 'src/shared/helpers';
 
 @Injectable()
 export class UserService {
