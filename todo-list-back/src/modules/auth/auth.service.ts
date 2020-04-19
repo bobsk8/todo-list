@@ -21,25 +21,26 @@ export class AuthService {
             const user = await this.userService.findByUserName(username);
             if (user && user.password === passwordHash(password)) {
                 return user;
+            } else {
+                return null;
             }
         } catch (err) {
-            return null;
+            throw Error;
         }
     }
 
     async login(credentialsDto: CredentialsDto): Promise<LoginUserDto> {
-        try {
-            console.log('Passou 1')
+        try {            
             const user = await this.validateUser(credentialsDto);
             if (!user) {
-                throw new UnauthorizedException(`username or password is incorrect`);
+                throw new Error;
             }
             const payload = { username: user.username, sub: user.id };
             delete user.password;
             const token = this.jwtService.sign(payload);
             return new LoginUserDto(user, token);
         } catch (err) {
-            return null;
+            throw new UnauthorizedException(`username or password is incorrect`);;
         }
 
     }
