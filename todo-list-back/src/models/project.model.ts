@@ -1,6 +1,6 @@
 import { Column, Entity, ObjectID, ObjectIdColumn } from "typeorm";
-import { Task } from "../task/task.model";
-import { User } from "../user/user.model";
+import { Task } from "./task.model";
+import { User } from "../modules/user/user.model";
 
 @Entity()
 export class Project {
@@ -8,13 +8,13 @@ export class Project {
     @ObjectIdColumn({ unique: true })
     id: ObjectID;
 
-    @Column({ type: 'varchar', nullable: false })
+    @Column({ nullable: false })
     name: string;
     
-    @Column(type => Task)
+    @Column()
     tasks: Task[];
 
-    @Column(type => User)
+    @Column()
     user: User;
 
     constructor() {

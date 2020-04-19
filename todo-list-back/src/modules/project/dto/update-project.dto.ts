@@ -1,5 +1,5 @@
 import { IsString, IsArray } from 'class-validator';
-import { Task } from 'src/modules/task/task.model';
+import { Task } from 'src/models/task.model';
 
 export class UpdateProjectDto {
 

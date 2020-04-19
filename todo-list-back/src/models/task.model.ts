@@ -6,19 +6,19 @@ export class Task {
     @ObjectIdColumn({ unique: true })
     id: ObjectID;
 
-    @Column({ type: 'varchar' })
+    @Column()
     description: string;
 
     @Column({ type: 'boolean' })
     completed: boolean;
 
-    @Column({ type: 'varchar' })
+    @Column()
     project: string;
 
-    @CreateDateColumn({ type: 'timestamp' })
+    @CreateDateColumn()
     createdAt: Date
 
-    @CreateDateColumn({ type: 'timestamp' })
+    @CreateDateColumn()
     updatedAt: Date;
 
     constructor(description: string, project) {

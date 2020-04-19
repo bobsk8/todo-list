@@ -1,0 +1,10 @@
+{
+    "type": "mongodb",
+    "host": "db_mongo",
+    "port": 27017,
+    "username": "",
+    "password": "",
+    "database": "todo-list",
+    "entities": ["dist/**/*.model{.ts,.js}"],
+    "synchronize": false
+  }
