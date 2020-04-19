@@ -2,10 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { AuthInterceptor } from './core/auth-interceptor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpErrorInterceptor } from './core/http-error.interceptor';
+import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
+import { AuthInterceptor } from './core/interceptors/auth-interceptor';
 
 @NgModule({
   declarations: [

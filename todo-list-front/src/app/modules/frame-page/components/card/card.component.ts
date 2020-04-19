@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
 import { Project } from '../../project/project.model';
 import { Task } from 'src/app/model/task.model';
 
@@ -21,23 +22,23 @@ export class CardComponent implements OnInit {
   ngOnInit() {
   }
 
-  removeP(id: string) {
+  removeP(id: string): void {
     this.removeProject.emit(id);
   }
 
-  setDoneT(project: Project, task: Task) {
+  setDoneT(project: Project, task: Task): void {
     this.setDoneTask.emit({project, task});
   }
 
-  editT(project: Project, task: Task) {
+  editT(project: Project, task: Task): void {
     this.editTask.emit({project, task});
   }
 
-  removeT(project: Project, id: string) {
+  removeT(project: Project, id: string): void {
     this.removeTask.emit({project, id});
   }
 
-  saveT(project: Project) {
+  saveT(project: Project): void {
     this.saveTask.emit({project});
   }
 

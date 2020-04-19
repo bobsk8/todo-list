@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { LoginService } from '../modules/frameless-page/login/login.service';
+
+import { LoginService } from 'src/app/modules/frameless-page/login/login.service';
 
 @Injectable({
   providedIn: 'root'

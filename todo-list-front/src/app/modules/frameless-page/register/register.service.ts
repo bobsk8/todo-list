@@ -3,6 +3,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+
 import { User } from 'src/app/model/user.model';
 
 const httpOptions = {
@@ -21,11 +22,11 @@ export class RegisterService {
     private http: HttpClient
   ) { }
 
-  register(user: User): Observable<any> {
+  register(user: User): Observable<User> {
     return this.http.post(`${this.url}/api/user`, user, httpOptions)
       .pipe(
         catchError(err => {
-          console.log('login register: ', err);
+          console.log('register error: ', err);
           return throwError(err);
         })
       );
