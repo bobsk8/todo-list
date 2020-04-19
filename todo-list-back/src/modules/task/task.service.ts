@@ -2,7 +2,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getManager } from 'typeorm';
 
-import { Task } from './task.model';
+import { Task } from '../../models/task.model';
 import { UpdateTaskDto } from './dto/update-task.dto';
 
 @Injectable()
