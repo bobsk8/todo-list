@@ -4,7 +4,9 @@ import { catchError } from 'rxjs/operators';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 
-import { LoginModel } from './login.model';
+import { LoginDto } from './dto/login.dto';
+import { User } from 'src/app/model/user.model';
+import { LoginReturnDto } from './dto/login-return.dto';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -22,8 +24,8 @@ export class LoginService {
     private http: HttpClient
   ) { }
 
-  login(loginModel: LoginModel): Observable<any> {
-    return this.http.post(`${this.url}/api/auth/login`, loginModel, httpOptions)
+  login(loginDto: LoginDto): Observable<LoginReturnDto> {
+    return this.http.post<LoginReturnDto>(`${this.url}/api/auth/login`, loginDto, httpOptions)
       .pipe(
         catchError(err => {
           console.log('login error: ', err);
@@ -32,15 +34,15 @@ export class LoginService {
       );
   }
 
-  setCurrentUserSession(user: any, token: string) {
+  setCurrentUserSession(user: User, token: string): void {
     sessionStorage.setItem('currentUser', JSON.stringify({ user, token }));
   }
 
-  getUserSessionToken() {
+  getUserSessionToken(): string {
     return (sessionStorage.getItem('currentUser') !== null) ? JSON.parse(sessionStorage.getItem('currentUser')).token : undefined;
   }
 
-  getUserSession() {
+  getUserSession(): User {
     return (sessionStorage.getItem('currentUser') !== null) ? JSON.parse(sessionStorage.getItem('currentUser')).user : undefined;
   }
 

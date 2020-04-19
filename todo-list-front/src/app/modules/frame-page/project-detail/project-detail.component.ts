@@ -37,7 +37,7 @@ export class ProjectDetailComponent implements OnInit {
     });
   }
 
-  onSubmit(form: any) {
+  onSubmit(form: FormGroup): void {
     this.submitted = true;
     if (!form.valid) {
       return;
@@ -50,7 +50,7 @@ export class ProjectDetailComponent implements OnInit {
     }
   }
 
-  getProjectById(id: string) {
+  getProjectById(id: string): void {
     this.projectService.getById(id)
     .subscribe(resp => {
       this.projectForm.get('name').setValue(resp.name);
@@ -59,7 +59,7 @@ export class ProjectDetailComponent implements OnInit {
     });
   }
 
-  saveProject(project: Project) {
+  saveProject(project: Project): void {
     this.projectService.save(project)
     .subscribe(() => {
       alert('Project save!');
@@ -67,7 +67,7 @@ export class ProjectDetailComponent implements OnInit {
     });
   }
 
-  editProject(project: Project) {
+  editProject(project: Project): void {
     this.projectService.update(project.id, project)
     .subscribe(() => {
       alert('Project update!');

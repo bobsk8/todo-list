@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { User } from 'src/app/model/user.model';
 import { LoginService } from 'src/app/modules/frameless-page/login/login.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -20,7 +21,7 @@ export class MenuComponent implements OnInit {
     this.user = this.loginService.getUserSession();
   }
 
-  logout() {
+  logout(): void {
     sessionStorage.clear();
     this.router.navigate(['']);
   }

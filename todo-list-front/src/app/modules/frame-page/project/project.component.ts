@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { ProjectService } from './project.service';
 import { Project } from './project.model';
 import { Task } from 'src/app/model/task.model';
@@ -19,7 +20,7 @@ export class ProjectComponent implements OnInit {
     this.getProjects();
   }
 
-  onSubmit(event: any) {
+  onSubmit(event: any): void {
     const project = event.project;
     if (!project.taskDescription) {
       return;
@@ -32,7 +33,7 @@ export class ProjectComponent implements OnInit {
     }
   }
 
-  saveTask(project: Project, task: Task) {
+  saveTask(project: Project, task: Task): void {
     this.projectService.addTask(project.id, task)
       .subscribe(resp => {
         project.tasks.push(resp);
@@ -40,7 +41,7 @@ export class ProjectComponent implements OnInit {
       });
   }
 
-  updateTask(project: Project, task: Task) {
+  updateTask(project: Project, task: Task): void {
     this.projectService.updateTask(task.id, task)
       .subscribe(() => {
         project.tasks.forEach(ts => {
@@ -52,17 +53,17 @@ export class ProjectComponent implements OnInit {
       });
   }
 
-  getProjects() {
+  getProjects(): void {
     this.projectService.getAll()
       .subscribe(resp => this.projects = resp);
   }
 
-  removeProject(projectId: string) {
+  removeProject(projectId: string): void {
     this.projectService.delete(projectId)
       .subscribe(() => { });
   }
 
-  removeTask(event: any) {
+  removeTask(event: any): void {
     const project = event.project;
     const id = event.id;
     this.projectService.deleteTask(id)
@@ -71,14 +72,14 @@ export class ProjectComponent implements OnInit {
       });
   }
 
-  editTask(event: any) {
+  editTask(event: any): void {
     const project = event.project;
     const task = event.task;
     project.taskId = task.id;
     project.taskDescription = task.description;
   }
 
-  setDoneTask(event: any) {
+  setDoneTask(event: any): void {
     const project = event.project;
     const task = event.task;
     task.completed = true;

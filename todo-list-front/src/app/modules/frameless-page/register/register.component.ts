@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
 import { RegisterService } from './register.service';
 import { User } from 'src/app/model/user.model';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -31,7 +32,7 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  onSubmit(form: any) {
+  onSubmit(form: FormGroup): void {
     this.submitted = true;
     if (!form.valid) {
       return;
@@ -40,7 +41,7 @@ export class RegisterComponent implements OnInit {
     this.save(user);
   }
 
-  save(user: User) {
+  save(user: User): void {
     this.registerService.register(user)
     .subscribe(resp => {
       alert('Salvo com sucesso!');

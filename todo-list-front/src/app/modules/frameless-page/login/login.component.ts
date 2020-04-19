@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-
-import { LoginModel } from './login.model';
-import { LoginService } from './login.service';
 import { Router } from '@angular/router';
+
+import { LoginDto } from './dto/login.dto';
+import { LoginService } from './login.service';
 
 @Component({
   selector: 'app-login',
@@ -31,17 +31,17 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onSubmit(form: any) {
+  onSubmit(form: FormGroup): void {
     this.submitted = true;
     if (!form.valid) {
       return;
     }
-    const loginModel = Object.assign(new LoginModel(), form.value);
-    this.login(loginModel);
+    const loginDto = Object.assign(new LoginDto(), form.value);
+    this.login(loginDto);
   }
 
-  login(loginModel: LoginModel) {
-    this.loginService.login(loginModel)
+  login(loginDto: LoginDto): void {
+    this.loginService.login(loginDto)
     .subscribe(resp => {
       this.loginService.setCurrentUserSession(resp.user, resp.token);
       this.router.navigate(['project']);

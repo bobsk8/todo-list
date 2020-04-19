@@ -29,6 +29,7 @@ export class AuthService {
 
     async login(credentialsDto: CredentialsDto): Promise<LoginUserDto> {
         try {
+            console.log('Passou 1')
             const user = await this.validateUser(credentialsDto);
             if (!user) {
                 throw new UnauthorizedException(`username or password is incorrect`);
