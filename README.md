@@ -21,8 +21,8 @@
 | Git | [https://git-scm.com/book/en/v2/Getting-Started-Installing-Git] |
 | Nodejs v 12.x.x | [https://nodejs.org/en/download/] |
 | Nestjs v 7.x.x | [https://docs.nestjs.com/] |
-| Docker v 19.x.x | [https://nodejs.org/en/download/] |
-| Docker-compose v 1.7.x | [https://nodejs.org/en/download/] |
+| Docker v 19.x.x | [https://www.docker.com/get-started] |
+| Docker-compose v 1.7.x | [https://docs.docker.com/compose/install/] |
 |
 
 ---
