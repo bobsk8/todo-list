@@ -16,8 +16,8 @@ export class ProjectController {
     @UsePipes(ValidationPipe)
     @UseGuards(JwtAuthGuard)
     create(@Body() createProjectDto: CreateProjectDto, @Request() req) {
-        const userId = req.user.userId;
-        return this.projectService.save(createProjectDto, userId);
+        const user = req.user;
+        return this.projectService.save(createProjectDto, user);
     }
 
     @Get()

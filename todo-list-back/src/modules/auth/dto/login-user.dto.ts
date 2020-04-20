@@ -1,4 +1,4 @@
-import { User } from "src/modules/user/user.model";
+import { User } from "src/models/user.model";
 
 export class LoginUserDto {
 

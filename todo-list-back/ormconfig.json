@@ -1,10 +1,14 @@
 {
-    "type": "mongodb",
-    "host": "db_mongo",
-    "port": 27017,
-    "username": "",
-    "password": "",
+    "type": "mysql",
+    "host": "db_mysql",
+    "port": 3306,
+    "username": "root",
+    "password": "root",
     "database": "todo-list",
     "entities": ["dist/**/*.model{.ts,.js}"],
+    "migrations": ["migration/*.js"],
+    "cli": {
+        "migrationsDir": "migration"
+    },
     "synchronize": false
   }

@@ -1,23 +1,19 @@
-import { Column, Entity, ObjectID, ObjectIdColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Task } from "./task.model";
-import { User } from "../modules/user/user.model";
+import { User } from "./user.model";
 
 @Entity()
 export class Project {
 
-    @ObjectIdColumn({ unique: true })
-    id: ObjectID;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-    @Column({ nullable: false })
+    @Column({ type: "varchar", nullable: false })
     name: string;
     
-    @Column()
+    @OneToMany(type => Task, task => task.project)
     tasks: Task[];
 
-    @Column()
+    @ManyToOne(type => User, user => user.projects)
     user: User;
-
-    constructor() {
-        this.tasks = [];
-    }
 }

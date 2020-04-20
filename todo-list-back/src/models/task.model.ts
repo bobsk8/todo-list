@@ -1,29 +1,24 @@
-import { Column, Entity, ObjectID, ObjectIdColumn, CreateDateColumn } from "typeorm";
+import { Column, Entity, CreateDateColumn, ManyToOne, UpdateDateColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Project } from "./project.model";
 
 @Entity()
 export class Task {
 
-    @ObjectIdColumn({ unique: true })
-    id: ObjectID;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-    @Column()
+    @Column({ type: "varchar", nullable: false })
     description: string;
 
     @Column({ type: 'boolean' })
     completed: boolean;
 
-    @Column()
-    project: string;
+    @ManyToOne(type => Project, project => project.tasks)
+    project: Project;
 
     @CreateDateColumn()
     createdAt: Date
 
-    @CreateDateColumn()
+    @UpdateDateColumn()
     updatedAt: Date;
-
-    constructor(description: string, project) {
-        this.project = project;
-        this.description = description;
-        this.completed = false;
-    }
 }

@@ -60,10 +60,8 @@ export class TaskService {
     }
 
     update(id: string, task: UpdateTaskDto): Promise<Task> {
-        try {
-            const repo = getManager().getRepository(Task);
-            repo.update(id, task);
-            return this.taskRepository.findOne(id);
+        try {            
+            return this.taskRepository.save(task);
         } catch (err) {
             throw new HttpException({
                 status: HttpStatus.FORBIDDEN,
@@ -72,9 +70,9 @@ export class TaskService {
         }
     }
 
-    async findByProjectId(project: string): Promise<Task[]> {
+    async findByProjectId(projectId: string): Promise<Task[]> {
         try {
-            const resp = this.taskRepository.find({ project });
+            const resp = this.taskRepository.find({ relations: ['task'], where: { project: { id: projectId } } });
             return resp;
         } catch (err) {
             throw new HttpException({

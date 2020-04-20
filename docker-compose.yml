@@ -8,18 +8,21 @@ services:
     links:
       - db
     environment:
-      - DB_URL=db_mongo
+      - DB_URL=db_mysql
     volumes:
       - .:/usr/todo-list-back/src/app
       - /usr/src/todo-list-back/app/node_modules
       
   db:
-    image: mongo
-    container_name: db_mongo
+    image: mysql:5.7
+    container_name: db_mysql
     volumes:
-      - mongodata:/data/db
+      - db_data:/var/lib/mysql
     ports:
-      - "27020:27020"
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=todo-list
 
 volumes:
-  mongodata: 
+  db_data: 
