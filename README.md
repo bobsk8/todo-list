@@ -1,5 +1,10 @@
 # TODO LIST
 
+## Versions
+### Branch
+* [mysql-version](https://github.com/bobsk8/todo-list/tree/mysql-version) Version with mysql database
+* [master](https://github.com/bobsk8/todo-list) Version with mongodb database
+
 ## Technologies used
 
 * Angular 8
