@@ -12,20 +12,26 @@ export class TaskController {
 
     @Get(':id')
     @UseGuards(JwtAuthGuard)
-    findOne(@Param('id') id) {
+    findOne(@Param('id') id: number) {
         return this.taskService.findOne(id);
+    }
+
+    @Get()
+    @UseGuards(JwtAuthGuard)
+    findAll() {
+        return this.taskService.findAll();
     }
 
     @Put(':id')
     @UsePipes(ValidationPipe)
     @UseGuards(JwtAuthGuard)
-    update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
+    update(@Param('id') id: number, @Body() updateTaskDto: UpdateTaskDto) {
         return this.taskService.update(id, updateTaskDto);
     }
 
     @Delete(':id')
     @UseGuards(JwtAuthGuard)
-    remove(@Param('id') id) {
+    remove(@Param('id') id: number) {
         return this.taskService.remove(id);
     }
 }

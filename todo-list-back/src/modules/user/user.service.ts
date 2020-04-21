@@ -5,6 +5,7 @@ import { User } from '../../models/user.model';
 import { Repository } from 'typeorm';
 import { passwordHash } from 'src/shared/helpers';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -39,7 +40,7 @@ export class UserService {
         }
     }
 
-    async findOne(id: string): Promise<User> {
+    async findOne(id: number): Promise<User> {
         try {
             const resp = await this.usersRepository.findOne(id);
             delete resp.password;
@@ -64,7 +65,7 @@ export class UserService {
         }
     }
 
-    async remove(id: string): Promise<void> {
+    async remove(id: number): Promise<void> {
         try {
             this.usersRepository.delete(id);
         } catch (err) {
@@ -75,8 +76,10 @@ export class UserService {
         }
     }
 
-    update(id: string, user: any): Promise<User> {
+    async update(id: number, user: UpdateUserDto): Promise<User> {
         try {
+            const userSaved = await this.usersRepository.findOne(id);
+            userSaved.name = user.name;
             const resp = this.usersRepository.save(user);
             return resp;
         } catch (err) {

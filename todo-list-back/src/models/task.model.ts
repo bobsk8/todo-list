@@ -10,7 +10,7 @@ export class Task {
     @Column({ type: "varchar", nullable: false })
     description: string;
 
-    @Column({ type: 'boolean' })
+    @Column({ type: 'boolean', default: false })
     completed: boolean;
 
     @ManyToOne(type => Project, project => project.tasks)

@@ -36,7 +36,7 @@ export class TaskService {
         }
     }
 
-    findOne(id: string): Promise<Task> {
+    findOne(id: number): Promise<Task> {
         try {
             const resp = this.taskRepository.findOne(id);
             return resp;
@@ -48,7 +48,7 @@ export class TaskService {
         }
     }
 
-    async remove(id: string): Promise<void> {
+    async remove(id: number): Promise<void> {
         try {
             this.taskRepository.delete(id);
         } catch (err) {
@@ -59,9 +59,12 @@ export class TaskService {
         }
     }
 
-    update(id: string, task: UpdateTaskDto): Promise<Task> {
-        try {            
-            return this.taskRepository.save(task);
+    async update(id: number, task: UpdateTaskDto): Promise<Task> {
+        try {
+            const taskSaved = await this.taskRepository.findOne(id); 
+            taskSaved.description = task.description;
+            taskSaved.completed = task.completed;
+            return this.taskRepository.save(taskSaved);
         } catch (err) {
             throw new HttpException({
                 status: HttpStatus.FORBIDDEN,

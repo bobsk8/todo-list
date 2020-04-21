@@ -1,23 +1,28 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, getManager } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { Project } from '../../models/project.model';
 import { Task } from '../../models/task.model';
 import { TaskService } from '../task/task.service';
 import { CreateTaskDto } from '../task/dto/create-task.dto';
 import { User } from 'src/models/user.model';
+import { CreateProjectDto } from './dto/create-project.dto';
+import { UpdateProjectDto } from './dto/update-project.dto';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class ProjectService {
     constructor(
+        private userService: UserService,
         private taskService: TaskService,
         @InjectRepository(Project)
         private projectRepository: Repository<Project>
     ) { }
 
-    save(project: any, user: User): Promise<Project> {
+    async save(project: CreateProjectDto, id: number): Promise<Project> {
         try {
+            const user = await this.userService.findOne(id);
             project.user = user;
             return this.projectRepository.save(project);
         } catch (err) {
@@ -29,10 +34,13 @@ export class ProjectService {
 
     }
 
-    async findAll(userId: string): Promise<Project[]> {
+    async findByUserId(id: number): Promise<Project[]> {
         try {
-            const projects = await this.projectRepository.find({ relations: ['user', 'task'], where: { user: { id: userId } } });            
-            return projects;
+            return this.projectRepository
+            .createQueryBuilder('project')
+            .leftJoinAndSelect('project.tasks', 'task')
+            .where('project.userId = :id', { id })
+            .getMany();            
         } catch (err) {
             throw new HttpException({
                 status: HttpStatus.FORBIDDEN,
@@ -41,10 +49,9 @@ export class ProjectService {
         }
     }
 
-    async findOne(id: string): Promise<Project> {
+    async findOne(id: number): Promise<Project> {
         try {
-            const project = await this.projectRepository.findOne({ relations: ['task'], where: { id } });            
-            return project;
+            return this.projectRepository.findOne({ where: { id } });            
         } catch (err) {
             throw new HttpException({
                 status: HttpStatus.FORBIDDEN,
@@ -53,7 +60,7 @@ export class ProjectService {
         }
     }
 
-    async remove(id: string): Promise<void> {
+    async remove(id: number): Promise<void> {
         try {
             this.projectRepository.delete(id);
         } catch (err) {
@@ -64,9 +71,10 @@ export class ProjectService {
         }
     }
 
-    update(id: string, user: any): Promise<Project> {
+    update(id: number, project: UpdateProjectDto): Promise<Project> {
         try {
-            return this.projectRepository.save(user);
+            project.id = id;
+            return this.projectRepository.save(project);
         } catch (err) {
             throw new HttpException({
                 status: HttpStatus.FORBIDDEN,
@@ -75,13 +83,12 @@ export class ProjectService {
         }
     }
 
-    async saveTask(id: string, createTask: CreateTaskDto) {
+    async saveTask(id: number, createTask: CreateTaskDto) {
         try {
             const project = await this.projectRepository.findOne(id);
             const task = new Task();
             task.description = createTask.description;
             task.project = project;
-            // const task = new Task(createTask.description, projectId);            
             return this.taskService.save(task);
         } catch (err) {
             throw new HttpException({
