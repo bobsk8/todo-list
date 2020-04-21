@@ -71,10 +71,11 @@ export class ProjectService {
         }
     }
 
-    update(id: number, project: UpdateProjectDto): Promise<Project> {
+    async update(id: number, project: UpdateProjectDto): Promise<Project> {
         try {
-            project.id = id;
-            return this.projectRepository.save(project);
+            const projectSave = await this.projectRepository.findOne(id);
+            projectSave.name = project.name;
+            return this.projectRepository.save(projectSave);
         } catch (err) {
             throw new HttpException({
                 status: HttpStatus.FORBIDDEN,

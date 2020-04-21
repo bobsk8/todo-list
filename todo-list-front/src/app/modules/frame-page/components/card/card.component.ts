@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { Project } from '../../project/project.model';
+import { Project } from '../../../../model/project.model';
 import { Task } from 'src/app/model/task.model';
 
 @Component({

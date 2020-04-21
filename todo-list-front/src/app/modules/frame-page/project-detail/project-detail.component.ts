@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ProjectService } from '../project/project.service';
-import { Project } from '../project/project.model';
+import { Project } from '../../../model/project.model';
 
 @Component({
   selector: 'app-project-detail',
@@ -26,13 +26,13 @@ export class ProjectDetailComponent implements OnInit {
     this.projectForm = this.createForm();
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.getProjectById(id);
+      this.getProjectById(parseInt(id, 10));
     }
   }
 
   createForm(): FormGroup {
     return this.fb.group({
-      id: [''],
+      id: [],
       name: ['', Validators.required]
     });
   }
@@ -50,7 +50,7 @@ export class ProjectDetailComponent implements OnInit {
     }
   }
 
-  getProjectById(id: string): void {
+  getProjectById(id: number): void {
     this.projectService.getById(id)
     .subscribe(resp => {
       this.projectForm.get('name').setValue(resp.name);

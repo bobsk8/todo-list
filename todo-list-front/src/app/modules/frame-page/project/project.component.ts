@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ProjectService } from './project.service';
-import { Project } from './project.model';
+import { Project } from '../../../model/project.model';
 import { Task } from 'src/app/model/task.model';
 
 @Component({
@@ -58,7 +58,7 @@ export class ProjectComponent implements OnInit {
       .subscribe(resp => this.projects = resp);
   }
 
-  removeProject(projectId: string): void {
+  removeProject(projectId: number): void {
     this.projectService.delete(projectId)
       .subscribe(() => { });
   }

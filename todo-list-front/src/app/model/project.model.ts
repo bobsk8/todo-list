@@ -2,7 +2,7 @@ import { Task } from 'src/app/model/task.model';
 
 export class Project {
     constructor(
-        public id?: string,
+        public id?: number,
         public name?: string,
         public tasks?: Task[],
         public taskDescription?: string,

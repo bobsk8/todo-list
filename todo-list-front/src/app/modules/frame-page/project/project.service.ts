@@ -4,7 +4,7 @@ import { catchError } from 'rxjs/operators';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 
-import { Project } from './project.model';
+import { Project } from '../../../model/project.model';
 import { Task } from 'src/app/model/task.model';
 
 const httpOptions = {
@@ -33,7 +33,7 @@ export class ProjectService {
       );
   }
 
-  update(id: string, project: Project): Observable<Project> {
+  update(id: number, project: Project): Observable<Project> {
     return this.http.put(`${this.url}/api/project/${id}`, project, httpOptions)
       .pipe(
         catchError(err => {
@@ -53,7 +53,7 @@ export class ProjectService {
       );
   }
 
-  delete(projectId: string): Observable<Project> {
+  delete(projectId: number): Observable<Project> {
     return this.http.delete(`${this.url}/api/project/${projectId}`, httpOptions)
       .pipe(
         catchError(err => {
@@ -63,7 +63,7 @@ export class ProjectService {
       );
   }
 
-  getById(id: string): Observable<Project> {
+  getById(id: number): Observable<Project> {
     return this.http.get<Project>(`${this.url}/api/project/${id}`, httpOptions)
       .pipe(
         catchError(err => {
@@ -73,7 +73,7 @@ export class ProjectService {
       );
   }
 
-  addTask(projectId: string, task: any): Observable<Task> {
+  addTask(projectId: number, task: any): Observable<Task> {
     return this.http.post(`${this.url}/api/project/${projectId}/task`, task, httpOptions)
       .pipe(
         catchError(err => {
@@ -83,7 +83,7 @@ export class ProjectService {
       );
   }
 
-  updateTask(taskId: string, task: any): Observable<Task> {
+  updateTask(taskId: number, task: any): Observable<Task> {
     return this.http.put(`${this.url}/api/task/${taskId}`, task, httpOptions)
       .pipe(
         catchError(err => {
@@ -93,7 +93,7 @@ export class ProjectService {
       );
   }
 
-  deleteTask(taskId: string): Observable<Task> {
+  deleteTask(taskId: number): Observable<Task> {
     return this.http.delete(`${this.url}/api/task/${taskId}`, httpOptions)
       .pipe(
         catchError(err => {
