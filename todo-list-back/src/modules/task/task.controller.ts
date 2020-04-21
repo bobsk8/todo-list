@@ -3,7 +3,8 @@ import { Controller, UsePipes, ValidationPipe, Body, Get, UseGuards, Param, Put,
 import { TaskService } from './task.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UpdateTaskDto } from './dto/update-task.dto';
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('task')
 @Controller('api/task')
 export class TaskController {
     constructor(

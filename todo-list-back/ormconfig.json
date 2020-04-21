@@ -4,7 +4,7 @@
     "port": 3306,
     "username": "root",
     "password": "root",
-    "database": "todo-list",
+    "database": "todo",
     "entities": ["dist/**/*.model{.ts,.js}"],
     "migrations": ["migration/*.js"],
     "cli": {

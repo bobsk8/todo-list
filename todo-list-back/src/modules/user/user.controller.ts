@@ -1,11 +1,12 @@
 import { Controller, Get, Post, UsePipes, ValidationPipe, Body, Param, Put, Delete, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-
 @Controller('api/user')
+@ApiTags('user')
 export class UserController {
 
     constructor(

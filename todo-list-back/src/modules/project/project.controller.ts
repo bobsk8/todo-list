@@ -1,4 +1,5 @@
 import { Controller, Get, Post, UsePipes, ValidationPipe, Body, Param, Put, Delete, UseGuards, Request } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { ProjectService } from './project.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -6,6 +7,7 @@ import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { CreateTaskDto } from '../task/dto/create-task.dto';
 
+@ApiTags('project')
 @Controller('api/project')
 export class ProjectController {
     constructor(
