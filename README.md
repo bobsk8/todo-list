@@ -14,6 +14,7 @@
 * Docker
 * Docker-compose
 * Mongodb
+* Mysql
 * npm
 * Bootstrap
 * jquery
