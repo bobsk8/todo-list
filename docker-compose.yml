@@ -10,7 +10,7 @@ services:
     environment:
       - DB_URL=db_mongo
     volumes:
-      - .:/usr/todo-list-back/src/app
+      - ./todo-list-back:/usr/src/app
       - /usr/src/todo-list-back/app/node_modules
       
   db:

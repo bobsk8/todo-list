@@ -1,6 +1,6 @@
 import { Column, Entity, ObjectID, ObjectIdColumn } from "typeorm";
 import { Task } from "./task.model";
-import { User } from "../modules/user/user.model";
+import { User } from "./user.model";
 
 @Entity()
 export class Project {
