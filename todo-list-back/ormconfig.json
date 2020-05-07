@@ -1,6 +1,7 @@
 {
     "type": "mongodb",
     "host": "db_mongo",
+    "useUnifiedTopology": true,
     "port": 27017,
     "username": "",
     "password": "",

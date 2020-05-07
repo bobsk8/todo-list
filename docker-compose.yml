@@ -19,7 +19,7 @@ services:
     volumes:
       - mongodata:/data/db
     ports:
-      - "27020:27020"
+      - "27014:27017"
 
 volumes:
   mongodata: 
