@@ -11,6 +11,7 @@
 * git
 * Nodejs
 * Nestjs
+* Swagger
 * Docker
 * Docker-compose
 * Mongodb
@@ -111,3 +112,6 @@ Open browsed on
 http://localhost:3000/
 ```
 ---
+
+## API Documentation with Swagger
+👉🏼 http://localhost:3000/api/
