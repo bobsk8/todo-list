@@ -19,6 +19,8 @@
 * npm
 * Bootstrap
 * jquery
+* eureka
+* zuul
 
 ## System Requirements
 

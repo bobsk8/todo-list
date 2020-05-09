@@ -7,8 +7,12 @@ services:
       - "3000:3000"
     links:
       - db
+      - eureka
+    networks:
+      - "discovery"
     environment:
       - DB_URL=db_mongo
+      - EUREKA_SERVICE_URL=eureka
     volumes:
       - ./todo-list-back:/usr/src/app
       - /usr/src/todo-list-back/app/node_modules
@@ -18,8 +22,23 @@ services:
     container_name: db_mongo
     volumes:
       - mongodata:/data/db
+    networks:
+      - "discovery"
     ports:
       - "27014:27017"
+      
+  eureka:
+    image: springcloud/eureka
+    container_name: eureka
+    ports:
+      - "8761:8761"
+    networks:
+      - "discovery"
+    environment:
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
 
 volumes:
-  mongodata: 
+  mongodata:
+    
+networks:
+  discovery:
