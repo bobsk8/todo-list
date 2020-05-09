@@ -10,11 +10,13 @@ export default new Eureka({
             '$': 3000,
             '@enabled': 'true',
         },
-        vipAddress: 'jq.test.something.com',
+        vipAddress: 'todo-application',
         dataCenterInfo: {
             '@class': 'com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo',
             name: 'MyOwn',
         },
+        registerWithEureka: true,
+        fetchRegister: true,
     },
     eureka: {
         host: process.env.EUREKA_SERVICE_URL,

@@ -1,9 +1,11 @@
 FROM openjdk:8-jdk-alpine
 
+MAINTAINER Jonas Hecht
+
 VOLUME /tmp
 
 # Add Spring Boot app.jar to Container
-ADD "target/eureka-server-0.0.1-SNAPSHOT.jar" app.jar
+ADD "target/serviceRegistration-0.0.1-SNAPSHOT.war" app.jar
 
 ENV JAVA_OPTS=""
 

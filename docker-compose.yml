@@ -27,7 +27,18 @@ services:
     ports:
       - "8761:8761"
     tty:
-      true
+      false
+    restart:
+      unless-stopped
+
+  zuul-edgeservice:
+    build: ./zuul-edgeservice
+    ports:
+      - "8080:8080"
+    environment:
+      - REGISTRY_HOST=eureka-serviceregistry
+    tty:
+      false
     restart:
       unless-stopped
 
