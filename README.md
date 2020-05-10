@@ -4,9 +4,12 @@
 ### Branch
 * [mysql-version](https://github.com/bobsk8/todo-list/tree/mysql-version) Version with mysql database
 * [master](https://github.com/bobsk8/todo-list) Version with mongodb database
+* [eureka-zuul](https://github.com/bobsk8/todo-list/tree/eureka-zuul) Version with mongodb database Eureka and Zuul
 
 ## Technologies used
 
+* Eureka
+* Zuul
 * Angular 8
 * git
 * Nodejs
