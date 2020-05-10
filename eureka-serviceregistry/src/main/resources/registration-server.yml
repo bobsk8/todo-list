@@ -1,17 +1,9 @@
-# Configure this Discovery Server
+server:
+  port: 8761
+
 eureka:
-  instance:
-    hostname: localhost
-  client:  # Not a client, don't register with yourself
+  client:
     registerWithEureka: false
     fetchRegistry: false
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka
-     
-server:
-  port: 8761   # HTTP (Tomcat) port
-
-# Discovery Server Dashboard uses FreeMarker.  Don't want Thymeleaf templates
-spring:
-  thymeleaf:
-    enabled: false     # Disable Thymeleaf 
+  server:
+    enableSelfPreservation: false

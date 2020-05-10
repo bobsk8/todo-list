@@ -17,11 +17,8 @@
 	<description>Demo project for Spring Boot</description>
 
 	<modules>
-		<module>heroWeb</module>
-		<module>heroClient</module>
-		<module>serviceRegistration</module>
-		<module>challengesWeb</module>
-		<module>zuulGateway</module>
+		<module>eureka-serviceregistry</module>		
+		<module>zuul-edgeservice</module>
 	</modules>
 	
 		<properties>

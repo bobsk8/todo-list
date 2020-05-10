@@ -16,7 +16,11 @@ eureka:
 # will stop Authorization from happening       
 zuul:
   sensitive-headers: Cookie,Set-Cookie
-  
+
+management:
+  security:
+    enabled: false
+
 hystrix:
   command:
     default:

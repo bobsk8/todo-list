@@ -7,9 +7,11 @@ services:
       - "3000:3000"
     links:
       - db
+      - eureka-serviceregistry
     environment:
       - DB_URL=db_mongo
       - EUREKA_SERVICE_URL=eureka-serviceregistry
+      - MY_HOST=rodrigo_app
     volumes:
       - ./todo-list-back:/usr/src/app
       - /usr/src/todo-list-back/app/node_modules
@@ -26,8 +28,6 @@ services:
     build: ./eureka-serviceregistry
     ports:
       - "8761:8761"
-    tty:
-      false
     restart:
       unless-stopped
 
@@ -35,10 +35,11 @@ services:
     build: ./zuul-edgeservice
     ports:
       - "8080:8080"
+    links:
+     - eureka-serviceregistry
+     - rodrigo_app
     environment:
       - REGISTRY_HOST=eureka-serviceregistry
-    tty:
-      false
     restart:
       unless-stopped
 

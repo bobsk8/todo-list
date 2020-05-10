@@ -3,9 +3,9 @@ import Eureka from 'eureka-js-client';
 export default new Eureka({
     instance: {
         app: 'todo-application',
-        hostName: 'localhost',
-        ipAddr: 'localhost',
-        statusPageUrl: 'http://localhost:3000/api',
+        hostName: `${process.env.MY_HOST || 'localhost'}`,
+        ipAddr: `${process.env.MY_HOST || 'localhost'}`,
+        statusPageUrl: `http://${process.env.MY_HOST}:3000/api`,
         port: {
             '$': 3000,
             '@enabled': 'true',
@@ -16,10 +16,10 @@ export default new Eureka({
             name: 'MyOwn',
         },
         registerWithEureka: true,
-        fetchRegister: true,
+        fetchRegistry: true,
     },
     eureka: {
-        host: process.env.EUREKA_SERVICE_URL,
+        host: `${process.env.EUREKA_SERVICE_URL || 'localhost'}`,
         port: 8761,
         servicePath: '/eureka/apps/',
     }
