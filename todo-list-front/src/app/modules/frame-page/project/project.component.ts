@@ -60,7 +60,7 @@ export class ProjectComponent implements OnInit {
 
   removeProject(projectId: string): void {
     this.projectService.delete(projectId)
-      .subscribe(() => { });
+      .subscribe(() => this.projects = this.projects.filter(project => project.id !== projectId));
   }
 
   removeTask(event: any): void {
