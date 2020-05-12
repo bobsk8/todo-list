@@ -1,14 +1,24 @@
 # TODO LIST
 
+## Versions
+### Branch
+* [mysql-version](https://github.com/bobsk8/todo-list/tree/mysql-version) Version with mysql database
+* [master](https://github.com/bobsk8/todo-list) Version with mongodb database
+* [eureka-zuul](https://github.com/bobsk8/todo-list/tree/eureka-zuul) Version with mongodb database Eureka and Zuul
+
 ## Technologies used
 
+* Eureka
+* Zuul
 * Angular 8
 * git
 * Nodejs
 * Nestjs
+* Swagger
 * Docker
 * Docker-compose
 * Mongodb
+* Mysql
 * npm
 * Bootstrap
 * jquery
@@ -105,3 +115,6 @@ Open browsed on
 http://localhost:3000/
 ```
 ---
+
+## API Documentation with Swagger
+👉🏼 http://localhost:3000/api/
