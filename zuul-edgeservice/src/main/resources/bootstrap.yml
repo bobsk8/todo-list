@@ -17,9 +17,11 @@ eureka:
 zuul:
   sensitive-headers: Cookie,Set-Cookie
 
-management:
-  security:
-    enabled: false
+security:
+  oauth2:
+      resource:
+        jwt:
+          key-value: secretKey
 
 hystrix:
   command:
@@ -27,8 +29,4 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 60000  
-  
-
-
- 
+            timeoutInMilliseconds: 60000
